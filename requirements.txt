@@ -1,0 +1,25 @@
+# Analyse et manipulation de données
+pandas==3.0.2
+numpy==2.4.4
+
+# Visualisation
+matplotlib==3.11.1
+seaborn==0.13.2
+
+# Données géographiques
+geopandas==1.2.0
+shapely==2.1.2
+geopy==2.5.0
+cartiflette==0.3.0
+
+# Statistiques et apprentissage automatique
+statsmodels==0.14.6
+scikit-learn==1.9.1
+
+# Requêtes API et fichiers
+requests==2.33.1
+openpyxl==3.1.5
+
+# Exécution et export des notebooks
+ipykernel==7.2.0
+nbconvert==7.17.2
