@@ -111,34 +111,6 @@ def regression(x, y):
     y_reg = y.values.ravel()
     return(sm.OLS(y_reg, x_reg).fit(cov_type='HC0'))
 
-def prediction(x, y, afficher = True):
-    #séparation des données en 2 échantillon 
-    X_train, X_test, y_train, y_test = x,x,y,y
-
-    #régression et prédiction
-    ols = LinearRegression().fit(X_train, y_train)
-    y_pred = ols.predict(X_test)
-    
-    #calcul des métriques
-    rmse = sklearn.metrics.mean_squared_error(y_test, y_pred)
-    rsq = sklearn.metrics.r2_score(y_test, y_pred) 
-    
-    #nuage de points des valeurs observées
-    tempdf = pd.DataFrame({"prediction": y_pred, "observed": y_test,
-                           "error": y_test - y_pred})
-    
-    if afficher == True : 
-        print("intercept : ",ols.intercept_)
-        print("coeffs : ", ols.coef_)
-        print("rsq : ", rsq)
-        print("rmse : ", rmse)
-
-        fig = plt.figure()
-        g = sns.scatterplot(data = tempdf, x = "observed", y = "error")
-        g.axhline(0, color = "red")
-
-    return tempdf
-
 def gini(df, X_col, Y_col):
 
     populations = df[X_col].values
@@ -224,9 +196,85 @@ def closest_infra_address(address, gdf):
     dist = gdf_proj.loc[closest_id, 'distance'] # Obtenir la distance
     return closest, dist, "Distance en m : {}".format(round(dist))
 
-def closest_infra_address_equiptype(address, equip_type, gdf):
-    gdf_filter = gdf[gdf['equip_type_name'] == equip_type]
-    gdf_filter = gdf_filter.copy()
+def closest_infra_address_filter(
+    address,
+    gdf,
+    equip_type_famille=None,
+    equip_type_name=None,
+    equip_acc_libre=None,
+    equip_pmr_aire=None,
+    equip_pshs_aire=None,
+    aps_name=None,
+    equip_gest_type=None,
+    equip_utilisateur=None,
+    equip_saison=None
+):
+    # Copie du GeoDataFrame
+    gdf_filter = gdf.copy()
+
+    # Définition des filtres
+    filtres = {
+        "equip_type_famille": equip_type_famille,
+        "equip_type_name": equip_type_name,
+        "equip_acc_libre": equip_acc_libre,
+        "equip_pmr_aire": equip_pmr_aire,
+        "equip_pshs_aire": equip_pshs_aire,
+        "aps_name": aps_name,
+        "equip_gest_type": equip_gest_type,
+        "equip_utilisateur": equip_utilisateur,
+        "equip_saison": equip_saison
+    }
+
+    # Application successive des filtres renseignés
+    for colonne, valeur in filtres.items():
+
+        if valeur is None:
+            continue
+
+        if colonne not in gdf_filter.columns:
+            raise ValueError(
+                f"La colonne '{colonne}' est absente du GeoDataFrame."
+            )
+
+        if colonne == "aps_name":
+            sports_recherches = (
+                valeur if isinstance(valeur, (list, tuple, set))
+                else [valeur]
+            )
+
+            sports_recherches = {
+                str(sport).strip().casefold()
+                for sport in sports_recherches
+            }
+
+            masque = gdf_filter[colonne].fillna("").apply(
+                lambda sports: bool(
+                    sports_recherches.intersection(
+                        sport.strip().casefold()
+                        for sport in sports.split(",")
+                    )
+                )
+            )
+
+            gdf_filter = gdf_filter[masque]
+
+        elif isinstance(valeur, (list, tuple, set)):
+            gdf_filter = gdf_filter[
+                gdf_filter[colonne].isin(valeur)
+            ]
+
+        else:
+            gdf_filter = gdf_filter[
+                gdf_filter[colonne] == valeur
+            ]
+
+    # Vérifier qu'il reste des équipements
+    if gdf_filter.empty:
+        raise ValueError(
+            "Aucun équipement ne correspond aux filtres sélectionnés."
+        )
+
+    # Rechercher l'équipement le plus proche
     return closest_infra_address(address, gdf_filter)
 
 def generate_random_coord() :
