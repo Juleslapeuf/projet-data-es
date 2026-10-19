@@ -167,15 +167,6 @@ def recuperer_licences(federation, limit=100):
 
 # Toutes les fonctions relatives à la distance à l'infrastructure la plus proche
 
-def closest_infra(x,y, gdf) :
-    point = Point(x,y) # Coord. en format WGS84
-    gdf_proj = gdf.to_crs(epsg=3857) 
-    point_proj = gpd.GeoSeries([point], crs="EPSG:4326").to_crs(epsg=3857)[0] # Reprojeter les coordonnées (format WGS84) en système métrique pour augmenter la précision
-    gdf_proj['distance'] = gdf_proj.geometry.distance(point_proj) # Calcul des distances entre notre point et toutes les infrastructures, grâce à GeoPandas
-    closest_id = gdf_proj['distance'].idxmin() # Retourner l'indice du minimul avec idxmin
-    dist = gdf_proj.loc[closest_id, 'distance']
-    return gdf.loc[closest_id], dist
-
 def closest_infra_address(address, gdf):
     geolocator = Nominatim(user_agent="projet_python") #Géocodage de l'adresse
     location = geolocator.geocode(address)
@@ -221,7 +212,6 @@ def closest_infra_address_filter(
         "equip_pshs_aire": equip_pshs_aire,
         "aps_name": aps_name,
         "equip_gest_type": equip_gest_type,
-        "equip_utilisateur": equip_utilisateur,
         "equip_saison": equip_saison
     }
 
