@@ -26,4 +26,4 @@ Pour ce faire, nous exploitons principalement le recensement des équipements sp
     * A. Ecarts d'équipements entre les départements
     * B. Distance à l'infrastructure la plus proche
  
-Ce projet se trouve sur le script **main.ipynb**, qu'il faut faire tourner.
+Ce projet se trouve sur le script **main.ipynb**, qu'il faut faire tourner, sinon un accès rapide et facile au rapport est disponible à cette adresse : 👉 [Consulter le rapport interactif](https://juleslapeuf.github.io/projet-data-es/main.html)
