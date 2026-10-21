@@ -171,7 +171,9 @@ cython_debug/
 .pypirc
 
 
-*.html
 *.pdf
 *.png
+*.yml
 equipements_ile_de_france.csv
+/.quarto/
+**/*.quarto_ipynb

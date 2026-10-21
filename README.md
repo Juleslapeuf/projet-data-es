@@ -1,5 +1,9 @@
 # projet-data-es
 
+## Rapport du projet
+
+👉 [Consulter le rapport interactif](https://juleslapeuf.github.io/projet-data-es/main.html)
+
 Ce *repository* prolonge le travail réalisé pour le cours suivi à l'ENSAE Paris en deuxième année "Projet python pour la science des données" (2024-2025), dont la modalité d'évaluation est de rendre un repo dans le cadre d'un projet de groupe (mené avec Lison Brochet, Théo Haddouche et Cyprien Mathé). Ce repo est disponible ici : https://github.com/cyprienmathe/Python-data-science.git.
 
 Ce travail est intervenu quelques semaines à peine après la fin des Jeux Olympiques de Paris 2024, et à cette occasion, dès la rentrée scolaire suivante, certains clubs de sport ont vu leurs nombre de licenciés augmenter, en particulier les clubs de natation et les clubs de tennis de table avec supposément un "effet Marchand" et un "effet Lebrun". Cela a aussi mis en évidence des défaillances au niveau des infrastructures, et de l'accès aux équipements sportifs, et il est clair que la qualité de ceux-ci ne doit pas apparaître comme un obstacle à franchir pour les usagers.
